@@ -1,0 +1,24 @@
+pipeline{
+    agent any
+        tools{
+            maven 'maven'
+        }
+        stages{
+            stage('git-checkout'){
+                steps{
+                    git branch:'main', url: "https://github.com/BelureAmar/Devops-Project.git"
+                }
+            }
+            stage('code-compile'){
+                steps{
+                    sh 'mvn compile'
+                }
+                
+            }
+            stage('Code Package'){
+                steps{
+                    sh 'mvn clean install'
+                }
+            }
+        }
+}
