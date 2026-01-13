@@ -1,26 +1,23 @@
 pipeline{
     agent {
         label 'Non-Prod-Slave'
-}
+        }
         tools{
             maven 'maven'
         }
         stages{
-            stage('git-checkout'){
+            stage('Install Httpd'){
                 steps{
-                    git branch:'main', url: "https://github.com/BelureAmar/Devops-Project.git"
+                   sh '''sudo yum install httpd -y
+                        sudo systemctl enable httpd
+                        sudo systemctl start httpd
+                        sudo systemctl status httpd
                 }
-            }
-            stage('code-compile'){
-                steps{
-                    sh 'mvn compile'
-                }
-                
-            }
-            stage('Code Package'){
-                steps{
-                    sh 'mvn clean install'
-                }
+        }
+        stage('copy the webfile'){
+            steps{
+                sh 'cp index.html /var/www/html'
             }
         }
+}
 }
